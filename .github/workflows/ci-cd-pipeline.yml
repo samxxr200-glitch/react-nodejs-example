@@ -2,9 +2,9 @@ name: CI/CD Pipeline for React Node.js App
 
 on:
   push:
-    branches: [ master ]  # Change from main to master
+    branches: [ master ]
   pull_request:
-    branches: [ master ]  # Change from main to master
+    branches: [ master ]
 
 jobs:
   test-backend:
@@ -55,14 +55,12 @@ jobs:
       env:
         CI: true
         
-
-
-- name: Build frontend
-  run: |
-    cd my-app
-    npm run build
-  env:
-    NODE_OPTIONS: "--openssl-legacy-provider"
+    - name: Build frontend
+      run: |
+        cd my-app
+        npm run build
+      env:
+        NODE_OPTIONS: "--openssl-legacy-provider"
 
   deploy-staging:
     runs-on: ubuntu-latest
@@ -75,4 +73,3 @@ jobs:
     - name: Deploy to staging
       run: |
         echo "Deploying to staging environment..."
-        # Add your staging deployment commands here
