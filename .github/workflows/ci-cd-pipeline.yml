@@ -55,10 +55,14 @@ jobs:
       env:
         CI: true
         
-    - name: Build frontend
-      run: |
-        cd my-app
-        npm run build
+
+
+- name: Build frontend
+  run: |
+    cd my-app
+    npm run build
+  env:
+    NODE_OPTIONS: "--openssl-legacy-provider"
 
   deploy-staging:
     runs-on: ubuntu-latest
