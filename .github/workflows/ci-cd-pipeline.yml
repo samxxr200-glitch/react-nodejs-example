@@ -2,9 +2,9 @@ name: CI/CD Pipeline for React Node.js App
 
 on:
   push:
-    branches: [ main ]
+    branches: [ master ]  # Change from main to master
   pull_request:
-    branches: [ main ]
+    branches: [ master ]  # Change from main to master
 
 jobs:
   test-backend:
