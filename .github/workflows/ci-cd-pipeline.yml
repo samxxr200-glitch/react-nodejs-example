@@ -1,0 +1,74 @@
+name: CI/CD Pipeline for React Node.js App
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test-backend:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+        
+    - name: Install backend dependencies
+      run: |
+        cd api
+        npm install
+        
+    - name: Run backend tests
+      run: |
+        cd api
+        npm test
+      env:
+        CI: true
+
+  test-frontend:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+        
+    - name: Install frontend dependencies
+      run: |
+        cd my-app
+        npm install
+        
+    - name: Run frontend tests
+      run: |
+        cd my-app
+        npm test -- --coverage --watchAll=false
+      env:
+        CI: true
+        
+    - name: Build frontend
+      run: |
+        cd my-app
+        npm run build
+
+  deploy-staging:
+    runs-on: ubuntu-latest
+    needs: [test-backend, test-frontend]
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+      
+    - name: Deploy to staging
+      run: |
+        echo "Deploying to staging environment..."
+        # Add your staging deployment commands here
